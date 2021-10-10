@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.kr.user.service.mapper.UserMapper">
+
+	<select id="idCheck" resultType="int">
+		SELECT COUNT(*)
+		FROM   TEST_USER
+		WHERE  user_id = #{user_id}
+	</select>
+	
+	<select id="login" resultType="HashMap">
+		select *
+		FROM   TEST_USER
+		WHERE  user_id = #{user_id}
+		AND    user_pw = #{user_pw}
+	</select>
+	
+	<select id="cnt" resultType="int">
+		select count(*)
+		from   TEST_USER
+	</select>
+	
+	<select id="userCheck" resultType="HashMap">
+		select *
+		from   TEST_USER
+	</select>
+	
+	<update id="join">
+		INSERT 		INTO
+		TEST_USER   (
+					 user_no,
+					 user_id,
+					 user_pw,
+					 user_nick,
+					 user_email)
+		VALUES       (
+					 #{user_no},
+					 #{user_id},
+					 #{user_pw},
+					 #{user_nick},
+					 #{user_email})
+	</update>
+	
+	<delete id="delete">
+		DELETE
+		FROM   TEST_USER
+		WHERE  user_no = #{user_no}
+	</delete>
+	
+	<select id="detail" resultType="HashMap">
+		SELECT *
+		FROM   TEST_USER
+		WHERE  user_no = #{user_no}
+	</select>
+	
+	<update id="modify">
+		UPDATE TEST_USER
+		SET    user_id = #{user_id},
+			   user_pw = #{user_pw},
+			   user_nick = #{user_nick},
+			   user_email = #{user_email}
+		WHERE  user_no = #{user_no}
+	</update>
+</mapper>

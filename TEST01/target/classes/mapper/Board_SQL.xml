@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.kr.board.service.mapper.BoardMapper">
+
+	<select id="list" resultType="HashMap">
+	<![CDATA[
+	SELECT * FROM
+	(
+	SELECT 	ROW_NUMBER() OVER(ORDER BY board_no) rn,
+												 board_no,
+												 board_title,
+												 board_content,
+												 board_type,
+											 	 board_day,
+											     board_view,
+											  	 user_nick
+	FROM 	TEST_BOARD,TEST_USER
+	WHERE 	TEST_BOARD.user_no = TEST_USER.user_no
+	]]>
+		<if test="keyword != null and keyword != ''">
+			where ${type} like '%'|| #{keyword} ||'%'
+		</if>
+	<![CDATA[
+	)a
+	where a.rn > #{startRn}
+	and   a.rn <= #{endRn}
+	]]>
+	</select>
+	
+	<select id="total" resultType="int">
+		SELECT COUNT(*)
+		FROM   TEST_BOARD
+		<if test="keyword != null and keyword !=''">
+			where ${type} like '%'||#{keyword}||'%'
+		</if>
+	</select>
+	
+	<select id="max" resultType="int">
+		SELECT MAX(board_no)
+		FROM   TEST_BOARD
+	</select>
+	
+	<insert id="insert">
+		insert into
+		TEST_BOARD  (
+			  	 	 board_no,
+					 board_title,
+					 board_content,
+					 board_type,
+					 board_day,
+					 user_no)
+		values       (
+			 	 	 #{board_no},
+					 #{board_title},
+					 #{board_content},
+					 #{board_type},
+					 #{board_day},
+					 #{user_no})
+	</insert>
+	
+	<select id="detail" resultType="HashMap">
+		SELECT * FROM(
+			SELECT  board_no,
+					board_title,
+					board_content,
+					board_type,
+					board_day,
+					board_view,
+					user_nick
+			 FROM   TEST_BOARD,TEST_USER
+			 WHERE  TEST_BOARD.user_no = TEST_USER.user_no
+		 )a
+		 WHERE  a.board_no = #{board_no}
+	</select>
+	
+	<delete id="delete">
+		delete
+		from    TEST_BOARD
+		where   board_no = #{board_no}
+	</delete>
+	
+	<update id="cntUp">
+		UPDATE TEST_BOARD
+		SET    board_view = #{board_view}
+		WHERE  board_no = #{board_no}
+	</update>
+	
+	<update id="modify">
+		UPDATE TEST_BOARD
+		SET    board_title = #{board_title},
+			   board_content = #{board_content},
+			   board_type = #{board_type}
+		where  board_no = #{board_no}
+	</update>
+</mapper>
