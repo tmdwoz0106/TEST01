@@ -21,5 +21,13 @@ public interface BoardService {
 
 	public int modify(HashMap<String, Object> param);
 
+	public List<HashMap<String, Object>> typeList(String board_type,int page, String type, String keyword);
+
+	public int typeTotal(String board_type,String type, String keyword);
+
+
+	public HashMap<String, Object> typeDetail(int board_no);
+
+
 
 }

@@ -21,8 +21,8 @@ public class BoardServiceImpl implements BoardService{
 	public List<HashMap<String, Object>> list(int page, String keyword, String type) {
 		int amount = 10;
 		HashMap<String, Object> list = new HashMap<String, Object>();
-		list.put("startRn", (page-1)*10);
-		list.put("endRn", page*10);
+		list.put("startRn", (page-1)*amount);
+		list.put("endRn", page*amount);
 		list.put("type", type);
 		list.put("keyword", keyword);
 		return boardMapper.list(list);
@@ -70,4 +70,31 @@ public class BoardServiceImpl implements BoardService{
 	public int modify(HashMap<String, Object> param) {
 		return boardMapper.modify(param);
 	}
+
+	@Override
+	public List<HashMap<String, Object>> typeList(String board_type, int page, String type, String keyword) {
+		int amount = 5;
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("startRn", (page-1)*amount);
+		param.put("endRn", page * amount);
+		param.put("type", type);
+		param.put("keyword", keyword);
+		param.put("board_type", board_type);
+		return boardMapper.typeList(param);
+	}
+
+	@Override
+	public int typeTotal(String board_type, String type, String keyword) {
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("type", type);
+		param.put("keyword", keyword);
+		param.put("board_type", board_type);
+		return boardMapper.typeTotal(param);
+	}
+
+	@Override
+	public HashMap<String, Object> typeDetail(int board_no) {
+		return boardMapper.typeDetail(board_no);
+	}
+
 }

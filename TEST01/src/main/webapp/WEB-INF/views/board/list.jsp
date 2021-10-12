@@ -10,8 +10,8 @@
 <script type="text/javascript" src="/resources/js/user/logout.js"></script>
 </head>
 <body>
-<h1>리스트 페이지</h1>
-
+<h1>전체 페이지</h1>
+${list }
 <label>검색</label>
 	<select id="type">
 		<option value="board_title">제목</option>
@@ -24,6 +24,9 @@
 	<input type="text" id="keyword" />
 	<button type="button" onclick="list(1)">검색</button>
 	<hr />
+	<a href="/BoardType.do?board_type=가입인사"><button>가입인사</button></a>
+	<a href="/BoardType.do?board_type=자유게시판"><button>자유게시판</button></a>
+	<a href="/BoardType.do?board_type=질문코너"><button>질문코너</button></a>
 	<table border="1" width="70%">
 		<tr>
 			<td colspan="2" style="text-align: center;">제목</td>

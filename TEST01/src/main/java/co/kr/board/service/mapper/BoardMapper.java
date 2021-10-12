@@ -24,4 +24,10 @@ public interface BoardMapper {
 
 	public int modify(HashMap<String, Object> param);
 
+	public List<HashMap<String, Object>> typeList(HashMap<String, Object> param);
+
+	public int typeTotal(HashMap<String, Object> param);
+
+	public HashMap<String, Object> typeDetail(int board_no);
+
 }

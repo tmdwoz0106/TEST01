@@ -27,6 +27,7 @@
 	</tr>
 </table>
 </form>
-<button type="button" onclick="join()">가입하기</button>
+<button type="button" onclick="join()">가입하기</button> |
+<a href="/"><button>로그인페이지</button></a>
 </body>
 </html>

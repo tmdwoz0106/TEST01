@@ -82,12 +82,13 @@ public class UserController {
 		return "user/modify";
 	}
 	@RequestMapping(value = "/MoidfyUser.do", method = RequestMethod.POST)
-	public ModelAndView modify_ajax(@RequestParam HashMap<String, Object> param) {
+	public ModelAndView modify_ajax(@RequestParam HashMap<String, Object> param, HttpSession session) {
 		ModelAndView json = new ModelAndView("jsonView");
-		if(userService.modify(param)>0) {
+		if(userService.modify(param, session)>0) {
+			
 			json.addObject("msg", "정보 수정 완료!");
 			json.addObject("result", 1);
-		}else if(1>userService.modify(param)&&userService.modify(param)>0) {
+		}else if(1>userService.modify(param, session)&&userService.modify(param, session)>0) {
 			json.addObject("msg", "이미 사용중인 아이디입니다.");
 			json.addObject("result", 2);
 		}else {

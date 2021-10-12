@@ -14,16 +14,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.kr.board.service.BoardService;
+import co.kr.like.service.LikeService;
 
 @Controller
 public class BoardController {
 
 	@Autowired
 	public BoardService boardService;
+	
+	@Autowired
+	public LikeService likeService;
+	
+	
 	//------------------------------리스트---------------------------------
 	@RequestMapping(value = "/home.do", method = RequestMethod.GET)
 	public String home(HttpSession session,Model model) {
 		int user_no = Integer.parseInt(session.getAttribute("user_no").toString());
+		
 		model.addAttribute("user_no", user_no);
 		return "board/list";
 	}
@@ -89,7 +96,7 @@ public class BoardController {
 		boardService.delete(board_no);
 		return json;
 	}
-	//------------------------------게시물 삭제-----------------------------------
+	//------------------------------게시물 수정-----------------------------------
 	@RequestMapping(value = "/BoardModify.do", method = RequestMethod.GET)
 	public String modify(int board_no, Model model) {
 		HashMap<String, Object> param = boardService.detail(board_no);
@@ -102,4 +109,50 @@ public class BoardController {
 		boardService.modify(param);
 		return json;
 	}
+	//-----------------------------2021년 10월12일 오후 5시43분-------------------
+	//-----------------------------타입별 게시물
+	//-------------------------------게시물 타입별--------------------------------
+	@RequestMapping(value = "/BoardType.do", method = RequestMethod.GET)
+	public String BoardDetail(String board_type,Model model) {
+		model.addAttribute("board_type", board_type);
+		return "board/type";
+	}
+	@RequestMapping(value = "/TypeBoard.do", method = RequestMethod.GET)
+	public ModelAndView BoardDetail_ajax(String board_type,int page, String type, String keyword) {
+		ModelAndView json = new ModelAndView("jsonView");
+		List<HashMap<String, Object>> list = boardService.typeList(board_type,page,type,keyword);
+		
+		int endPage = (int)(Math.ceil(page*1.0/5))*5;
+		int startPage = endPage - 4;
+		if(startPage <= 0) {
+			startPage = 1;
+		}
+
+		int total = boardService.typeTotal(board_type,type, keyword);
+		int totalPage = (int)(Math.ceil(total*1.0/5));
+		if(endPage > totalPage) {
+			endPage = totalPage;
+		}
+		
+		boolean prev = page > 1;
+		boolean next = page < endPage;
+		
+		json.addObject("list", list);
+		json.addObject("endPage", endPage);
+		json.addObject("startPage", startPage);
+		json.addObject("prev", prev);
+		json.addObject("next", next);
+		return json;
+	}
+	//-----------------------------------타입 상세보기------------------------------
+	@RequestMapping(value = "/typeDetail.do", method = RequestMethod.GET)
+	public String TypeDetail(int board_no,Model model) {
+		HashMap<String, Object> detail = boardService.typeDetail(board_no);
+		
+		boardService.cntUp(detail);
+		
+		model.addAttribute("vo", detail);
+		return "board/typeDetail";
+	}
+	
 }

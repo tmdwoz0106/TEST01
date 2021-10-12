@@ -14,6 +14,7 @@
 											 	 board_day,
 											     board_view,
 											  	 user_nick
+											 
 	FROM 	TEST_BOARD,TEST_USER
 	WHERE 	TEST_BOARD.user_no = TEST_USER.user_no
 	]]>
@@ -92,4 +93,54 @@
 			   board_type = #{board_type}
 		where  board_no = #{board_no}
 	</update>
+	
+	<select id="typeList" resultType="HashMap">
+	<![CDATA[
+		select * from
+		(
+			select ROW_NUMBER() over(order by board_no desc) rn, 
+															 board_no, 
+															 board_title, 
+															 board_type, 
+															 board_day, 
+															 board_view, 
+															 user_nick 
+			FROM TEST_BOARD,TEST_USER
+			where TEST_BOARD.user_no = TEST_USER.user_no
+			AND   board_type = #{board_type}
+			]]>
+			<if test="keyword != null and keyword != ''">
+				where ${type} like '%'||#{keyword}||'%'
+			</if>
+			order by board_no desc
+			<![CDATA[
+			)a
+				where a.rn >#{startRn}
+				and   a.rn <= #{endRn}
+	]]>
+	</select>
+	
+	<select id="typeTotal" resultType="int">
+		SELECT COUNT(*) 
+		FROM   TEST_BOARD
+		<if test="keyword != null and keyword != ''">
+			where ${type} like '%'||#{keyword}||'%'
+		</if>
+		where board_type = #{board_type}
+	</select>
+	
+	<select id="typeDetail" resultType="HashMap">
+		select * from(
+			select board_no,
+				   board_title,
+				   board_content,
+				   board_day,
+				   board_view,
+				   user_nick,
+				   board_type
+			from TEST_BOARD,TEST_USER
+			where TEST_BOARD.user_no = TEST_USER.user_no
+		)a
+		where a.board_no = #{board_no}
+	</select>
 </mapper>

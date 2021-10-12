@@ -16,7 +16,7 @@ public interface UserService {
 
 	public HashMap<String, Object> detail(int user_no);
 
-	public int modify(HashMap<String, Object> param);
+	public int modify(HashMap<String, Object> param, HttpSession session);
 
 
 }

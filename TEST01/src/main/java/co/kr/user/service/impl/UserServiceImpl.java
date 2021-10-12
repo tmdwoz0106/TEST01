@@ -68,13 +68,15 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public int modify(HashMap<String, Object> param) {
+	public int modify(HashMap<String, Object> param, HttpSession session) {
 		List<HashMap<String, Object>> list = userMapper.userCheck();
 		for(int i = 0; i < list.size(); i++) {
 			if(param.get("user_id").equals(list.get(i).get("USER_ID"))) {
 				return (int) 0.5;
 			}else if(param.get("user_nick").equals(list.get(i).get("USER_NICK"))) {
 				return 0;
+			}else {				
+				session.setAttribute("user_nick", param.get("user_nick"));
 			}
 		}
 		return userMapper.modify(param);

@@ -16,7 +16,7 @@
 			<td><select name="board_type">
 					<option value="가입인사">가입인사</option>
 					<option value="자유게시판">자유게시판</option>
-					<option value="Q&A">Q&A</option>
+					<option value="질문코너">질문코너</option>
 				</select>
 			</td>
 		</tr>
@@ -26,7 +26,7 @@
 		</tr>
 		<tr>
 			<td>글 내용</td>
-			<td><input type="text" name="board_content" /></td>
+			<td><input type="text" name="board_content" style="height: 500px"/></td>
 		</tr>
 	</table>
 	<input type="hidden" name="user_no" value="${user_no }"/>
