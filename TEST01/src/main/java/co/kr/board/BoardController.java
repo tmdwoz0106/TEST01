@@ -15,20 +15,24 @@ import org.springframework.web.servlet.ModelAndView;
 
 import co.kr.board.service.BoardService;
 import co.kr.like.service.LikeService;
+import co.kr.reply.service.ReplyService;
 
 @Controller
 public class BoardController {
 
 	@Autowired
 	public BoardService boardService;
+
+	@Autowired
+	public ReplyService replyService;
 	
 	@Autowired
 	public LikeService likeService;
 	
-	
 	//------------------------------리스트---------------------------------
 	@RequestMapping(value = "/home.do", method = RequestMethod.GET)
 	public String home(HttpSession session,Model model) {
+		
 		int user_no = Integer.parseInt(session.getAttribute("user_no").toString());
 		
 		model.addAttribute("user_no", user_no);
@@ -38,7 +42,7 @@ public class BoardController {
 	public ModelAndView home_ajax(int page, String keyword, String type) {
 		ModelAndView json = new ModelAndView("jsonView");
 		List<HashMap<String, Object>> list = boardService.list(page,keyword,type);
-		
+			
 		int endPage = (int)(Math.ceil(page*1.0/10))*10;
 		int startPage = endPage - 9;
 		if(startPage <= 0) {
@@ -82,8 +86,27 @@ public class BoardController {
 	public String detail(Model model,int board_no,HttpSession session) {
 		HashMap<String, Object> detail = boardService.detail(board_no);
 		
-		boardService.cntUp(detail);
+		int likeCnt = likeService.likeCnt(board_no);
 		
+		boardService.cntUp(detail);
+		int likeMax = likeService.likeMax();
+		
+		List<HashMap<String, Object>> list = replyService.list(board_no);
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		int replyUp = replyService.replyUp();
+		
+		int user_no = Integer.parseInt(session.getAttribute("user_no").toString());
+		
+		param.put("board_no", board_no);
+		param.put("user_no", user_no);
+		int likeBtn = likeService.likeBtn(param);
+		
+		model.addAttribute("likeBtn", likeBtn);
+		model.addAttribute("likeMax", likeMax+1);
+		model.addAttribute("like", likeCnt);
+		model.addAttribute("user_no", user_no);
+		model.addAttribute("list", list);
+		model.addAttribute("max", replyUp+1);
 		model.addAttribute("nick", session.getAttribute("user_nick"));
 		model.addAttribute("vo", detail);
 		return "board/detail";
@@ -146,11 +169,20 @@ public class BoardController {
 	}
 	//-----------------------------------타입 상세보기------------------------------
 	@RequestMapping(value = "/typeDetail.do", method = RequestMethod.GET)
-	public String TypeDetail(int board_no,Model model) {
+	public String TypeDetail(int board_no,Model model,HttpSession session) {
 		HashMap<String, Object> detail = boardService.typeDetail(board_no);
-		
 		boardService.cntUp(detail);
+
+		List<HashMap<String, Object>> list = replyService.list(board_no);
+		int replyMax = replyService.replyUp();
 		
+		int user_no = Integer.parseInt(session.getAttribute("user_no").toString());
+		String user_nick = (String)session.getAttribute("user_nick");
+
+		model.addAttribute("list", list);
+		model.addAttribute("max", replyMax+1);
+		model.addAttribute("user_no", user_no);
+		model.addAttribute("user_nick", user_nick);
 		model.addAttribute("vo", detail);
 		return "board/typeDetail";
 	}

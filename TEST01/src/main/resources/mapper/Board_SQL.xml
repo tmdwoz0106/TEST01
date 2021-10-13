@@ -19,7 +19,7 @@
 	WHERE 	TEST_BOARD.user_no = TEST_USER.user_no
 	]]>
 		<if test="keyword != null and keyword != ''">
-			where ${type} like '%'|| #{keyword} ||'%'
+			and ${type} like '%'|| #{keyword} ||'%'
 		</if>
 	<![CDATA[
 	)a
@@ -67,7 +67,8 @@
 					board_type,
 					board_day,
 					board_view,
-					user_nick
+					user_nick,
+					board_like
 			 FROM   TEST_BOARD,TEST_USER
 			 WHERE  TEST_BOARD.user_no = TEST_USER.user_no
 		 )a

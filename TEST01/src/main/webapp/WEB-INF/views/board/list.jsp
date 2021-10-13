@@ -11,7 +11,6 @@
 </head>
 <body>
 <h1>전체 페이지</h1>
-${list }
 <label>검색</label>
 	<select id="type">
 		<option value="board_title">제목</option>
@@ -33,6 +32,7 @@ ${list }
 			<td>작성자</td>
 			<td>날짜</td>
 			<td>조회수</td>
+			<td>좋아요</td>
 		</tr>
 		<tbody id="tbody"></tbody>
 	</table>
@@ -41,5 +41,6 @@ ${list }
 	<a href="/insertBoard.do"><button>게시글 추가</button></a> |
 	<button onclick="logout()" type="button">로그아웃</button> |
 	<a href="/UserDetail.do?user_no=${user_no}"><button>내정보</button></a>
+
 </body>
 </html>
