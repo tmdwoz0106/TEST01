@@ -46,5 +46,13 @@ public class LikeServiceImpl implements LikeService{
 		return likeMapper.delete(param);
 	}
 
+	@Override
+	public int likeCheck(int board_no, int user_no) {
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("board_no", board_no);
+		param.put("user_no", user_no);
+		return likeMapper.likeBtn(param);
+	}
+
 	
 }

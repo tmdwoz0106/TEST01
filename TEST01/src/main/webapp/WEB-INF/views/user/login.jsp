@@ -21,7 +21,11 @@
 		</tr>
 	</table>
 </form>
-<button type="button" onclick="login()">로그인</button>
+<button type="button" onclick="login()">로그인</button> |
 <a href="/join.do"><button>회원가입</button></a>
+<div>
+<a href="/IdFind.do"><button style="border: none; background: none; font-size: 13px;">아이디 찾기,비밀번호 찾기</button></a>
+<!-- <a href="/PWFind.do"><button style="border: none; background: none; font-size: 13px;">비밀번호 찾기</button></a> -->
+</div>
 </body>
 </html>

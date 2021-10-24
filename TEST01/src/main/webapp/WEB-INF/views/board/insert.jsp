@@ -9,7 +9,7 @@
 <script type="text/javascript" src="/resources/js/board/insert.js"></script>
 </head>
 <body>
-<form id="insertForm">
+<form id="FileForm" action="/BoardInsert.do" enctype="multipart/form-data" method="POST">
 	<table>
 		<tr>
 			<td>글 타입</td>
@@ -29,10 +29,12 @@
 			<td><input type="text" name="board_content" style="height: 500px"/></td>
 		</tr>
 	</table>
+	<input multiple="multiple" type="file" name="file" />
+<!-- 	<input type="file" name="file" /> -->
 	<input type="hidden" name="user_no" value="${user_no }"/>
 	<input type="hidden" name="board_no" value="${max }"/>
+	<br />
+	<button type="submit" onclick="insert()">게시글 추가</button>
 </form>
-<button type="button" onclick="insert()">게시글 추가</button>
-<a href="/home.do"><button>홈</button></a>
 </body>
 </html>

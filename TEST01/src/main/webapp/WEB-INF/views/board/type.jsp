@@ -30,6 +30,7 @@
 			<td>작성자</td>
 			<td>날짜</td>
 			<td>조회수</td>
+			<td>좋아요</td>
 		</tr>
 	<tbody id="tbody"></tbody>
 	</table>

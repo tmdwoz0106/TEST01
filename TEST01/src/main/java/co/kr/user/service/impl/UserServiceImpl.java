@@ -82,5 +82,12 @@ public class UserServiceImpl implements UserService{
 		return userMapper.modify(param);
 	}
 
+	@Override
+	public HashMap<String, Object> IdFinde(HashMap<String, Object> param) {
+//		param.put("msg", param.get("user_id"));
+//		param.put("msg", param.get("user_pw"));
+		return userMapper.IdFind(param);
+	}
+
 
 }

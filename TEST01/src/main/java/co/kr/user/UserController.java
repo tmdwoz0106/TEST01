@@ -98,4 +98,18 @@ public class UserController {
 		
 		return json;
 	}
+	//--------------------------------회원 아이디 찾기-----------------------------------------
+	@RequestMapping(value = "/IdFind.do", method = RequestMethod.GET)
+	public String find() {
+		
+		return "user/idFind";
+	}
+	@RequestMapping(value = "UserFind.do", method = RequestMethod.POST)
+	public ModelAndView IDfind(@RequestParam HashMap<String, Object> param) {
+		ModelAndView json = new ModelAndView("jsonView");
+		HashMap<String, Object> find = userService.IdFinde(param);
+		json.addObject("result", find);
+		return json;
+	}
+	
 }

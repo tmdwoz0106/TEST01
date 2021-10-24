@@ -24,5 +24,7 @@ public interface UserMapper {
 
 	public int modify(HashMap<String, Object> param);
 
+	public HashMap<String, Object> IdFind(HashMap<String, Object> param);
+
 
 }

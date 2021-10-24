@@ -18,5 +18,8 @@ public interface UserService {
 
 	public int modify(HashMap<String, Object> param, HttpSession session);
 
+	public HashMap<String, Object> IdFinde(HashMap<String, Object> param);
+
+
 
 }

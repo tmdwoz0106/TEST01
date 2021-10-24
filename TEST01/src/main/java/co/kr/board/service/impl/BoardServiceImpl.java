@@ -96,5 +96,4 @@ public class BoardServiceImpl implements BoardService{
 	public HashMap<String, Object> typeDetail(int board_no) {
 		return boardMapper.typeDetail(board_no);
 	}
-
 }

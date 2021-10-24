@@ -13,4 +13,6 @@ public interface LikeService {
 	public int likeBtn(HashMap<String, Object> param);
 
 	public int delete(int board_no,int user_no);
+
+	public int likeCheck(int board_no, int user_no);
 }

@@ -68,6 +68,10 @@ width: 30%;
 		<td><input type="text" name="board_like" value="${like}" readonly="readonly" /></td>
 	</tr>
 </table>
+		<c:forEach var="vo" items="${fileList }">
+			<img alt="사진 없음" src="/resources/img/${vo.UPLOAD_NAME}" style="width: 150px;height: 150px; " >
+		</c:forEach>
+		<br>
 		<c:if test="${likeBtn > 0 }">
 		<button style="border: none; background: none; font-size: 13px;" onclick="likeDelete(${vo.BOARD_NO},${user_no})">싫어요~꾹</button>
 		</c:if>

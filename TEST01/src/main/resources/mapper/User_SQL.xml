@@ -61,4 +61,11 @@
 			   user_email = #{user_email}
 		WHERE  user_no = #{user_no}
 	</update>
+	
+	<select id="IdFind" resultType="HashMap">
+		select user_id,
+		       user_pw
+		from   TEST_USER
+		where  user_email = #{user_email}
+	</select>
 </mapper>

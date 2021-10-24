@@ -56,7 +56,17 @@ width: 30%;
 		<td>날짜</td>
 		<td><input type="text" name="board_day" value="${vo.BOARD_DAY }" readonly="readonly"/></td>
 	</tr>
+	<tr>
+		<td>좋아요</td>
+		<td><input type="text" value="${likeCnt }" readonly="readonly" /></td>
+	</tr>
 </table>
+<c:if test="${likeCheck <= 0}">
+	<button style="border: none; background: none; font-size: 13px;" onclick="like(${vo.BOARD_NO},${user_no},${likeMax})">좋아요~꾹</button>
+</c:if>
+<c:if test="${likeCheck > 0 }">
+	<button style="border: none; background: none; font-size: 13px;" onclick="${vo.BOARD_NO},${user_no}">싫아요~꾹</button>
+</c:if>
 <hr />
    <div>
     <div class="popup">
@@ -121,7 +131,7 @@ width: 30%;
 		</div>
 	</div>
 
-	<form action="/inserttype.do" method="get" id="insertReply" >
+	<form action="/inserttype.do" method="get" id="insertReply" style="display: none;">
 		<input type="text" name="reply_no" value="${max }" id="reply_NO"/>
 		<input type="text" name="user_no" value="${user_no }"/>
 		<input type="text" name="board_no" value="${vo.BOARD_NO}"/>
@@ -131,7 +141,7 @@ width: 30%;
 		<input type="text" name="reply_depth" value="0" id="reply_Depth"/>
 	</form>
 	
-	<form action="/typeModify.do" method="get" id="MODIFY_Reply" >
+	<form action="/typeModify.do" method="get" id="MODIFY_Reply" style="display: none;">
 		<input type="text" name="reply_no" id="REPLY_no"/>
 		<input type="text" name="user_no" value="${user_no }"/>
 		<input type="text" name="board_no" value="${vo.BOARD_NO}"/>

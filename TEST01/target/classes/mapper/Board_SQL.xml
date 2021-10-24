@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.kr.board.service.mapper.BoardMapper">
 
+ 	<sql id="SEARCH">
+ 			   upload_path,
+        	   upload_name
+ 	</sql>
+
 	<select id="list" resultType="HashMap">
 	<![CDATA[
 	SELECT * FROM
@@ -61,18 +66,19 @@
 	
 	<select id="detail" resultType="HashMap">
 		SELECT * FROM(
-			SELECT  board_no,
-					board_title,
-					board_content,
-					board_type,
-					board_day,
-					board_view,
-					user_nick,
-					board_like
+			SELECT  		   board_no,
+							   board_title,
+							   board_content,
+							   board_type,
+							   board_day,
+							   board_view,
+							   user_nick,
+							   board_like
 			 FROM   TEST_BOARD,TEST_USER
 			 WHERE  TEST_BOARD.user_no = TEST_USER.user_no
 		 )a
 		 WHERE  a.board_no = #{board_no}
+		
 	</select>
 	
 	<delete id="delete">
@@ -111,7 +117,7 @@
 			AND   board_type = #{board_type}
 			]]>
 			<if test="keyword != null and keyword != ''">
-				where ${type} like '%'||#{keyword}||'%'
+				and ${type} like '%'||#{keyword}||'%'
 			</if>
 			order by board_no desc
 			<![CDATA[
@@ -124,10 +130,10 @@
 	<select id="typeTotal" resultType="int">
 		SELECT COUNT(*) 
 		FROM   TEST_BOARD
+		WHERE board_type = #{board_type}
 		<if test="keyword != null and keyword != ''">
-			where ${type} like '%'||#{keyword}||'%'
+			AND ${type} like '%'||#{keyword}||'%'
 		</if>
-		where board_type = #{board_type}
 	</select>
 	
 	<select id="typeDetail" resultType="HashMap">
