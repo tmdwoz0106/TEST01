@@ -14,13 +14,11 @@
 	<table border="1">
 		<tr>
 			<td>아이디</td>
-			<td>비밀번호</td>
 			<td>닉네임</td>
 			<td>이메일</td>
 		</tr>
 		<tr>
 			<td><input type="text" name="user_id" value="${vo.USER_ID }" readonly="readonly" /></td>
-			<td><input type="text" name="user_pw" value="${vo.USER_PW }" readonly="readonly" /></td>
 			<td><input type="text" name="user_nick" value="${vo.USER_NICK }" readonly="readonly" /></td>
 			<td><input type="text" name="user_email" value="${vo.USER_EMAIL }" readonly="readonly" /></td>
 		</tr>

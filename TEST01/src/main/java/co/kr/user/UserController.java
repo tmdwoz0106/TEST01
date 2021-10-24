@@ -2,9 +2,12 @@ package co.kr.user;
 
 import java.util.HashMap;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import co.kr.security.VO.UserVO;
 import co.kr.user.service.UserService;
 
 @Controller
@@ -19,19 +23,20 @@ public class UserController {
 
 	@Autowired
 	public UserService userService;
+	
+	
 	//-------------------------------로그인 페이지-------------------------------
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/main/login.do", method = RequestMethod.GET)
 	public String login() {
-		
 		return "user/login";
 	}
-	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
-	public ModelAndView login_ajax(@RequestParam HashMap<String, Object> param,HttpSession session) {
-		ModelAndView json = new ModelAndView("jsonView");
-		
-		json.addObject("result", userService.list(param,session));
-		return json;
-	}
+//	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
+//	public ModelAndView login_ajax(@RequestParam HashMap<String, Object> param,HttpSession session) {
+//		ModelAndView json = new ModelAndView("jsonView");
+//		
+//		json.addObject("result", userService.list(param,session));
+//		return json;
+//	}
 	//-----------------------------------로그아웃--------------------------------
 	@RequestMapping(value = "/logout.do", method = RequestMethod.POST)
 	public ModelAndView logout(HttpSession session) {
@@ -46,18 +51,10 @@ public class UserController {
 		model.addAttribute("max", max+1);
 		return "user/join";
 	}
-	@RequestMapping(value = "/joinus.do", method = RequestMethod.POST)
-	public ModelAndView join(@RequestParam HashMap<String, Object> param) {
-		ModelAndView json = new ModelAndView("jsonView");
-		if(userService.join(param)>0) {
-			json.addObject("msg", "회원가입 성공");
-			json.addObject("result", "1");
-		}else {
-			json.addObject("msg", "이미 등록된 아이디입니다");
-			json.addObject("result", "2");
-		}
-		
-		return json;	
+	@RequestMapping(value = "/join.do", method = RequestMethod.POST)
+	public String join(UserVO vo) {
+		userService.join(vo);
+		return "redirect:/main/login.do";	
 	}
 	//--------------------------------회원 정보-------------------------------------
 	@RequestMapping(value = "/UserDetail.do", method = RequestMethod.GET)

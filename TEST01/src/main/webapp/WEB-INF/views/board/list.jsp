@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +11,7 @@
 </head>
 <body>
 <h1>전체 페이지</h1>
+<sec:authentication property="principal" var="UserVO"/>
 <label>검색</label>
 	<select id="type">
 		<option value="board_title">제목</option>
@@ -39,8 +40,10 @@
 	
 	<div id="paging"></div>
 	<a href="/insertBoard.do"><button>게시글 추가</button></a> |
-	<button onclick="logout()" type="button">로그아웃</button> |
-	<a href="/UserDetail.do?user_no=${user_no}"><button>내정보</button></a>
-
+	<a href="/UserDetail.do?user_no=${UserVO.user_no}"><button>내정보</button></a>
+	<form action="/logout" method="POST">
+		<sec:csrfInput/>
+		<button type="submit">로그아웃</button> |
+	</form>
 </body>
 </html>

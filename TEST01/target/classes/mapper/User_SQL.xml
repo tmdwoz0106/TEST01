@@ -32,13 +32,17 @@
 					 user_id,
 					 user_pw,
 					 user_nick,
-					 user_email)
+					 user_email,
+					 user_role,
+					 user_enabled)
 		VALUES       (
 					 #{user_no},
 					 #{user_id},
 					 #{user_pw},
 					 #{user_nick},
-					 #{user_email})
+					 #{user_email},
+					 #{user_role},
+					 #{user_enabled})
 	</update>
 	
 	<delete id="delete">

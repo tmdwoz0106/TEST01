@@ -20,7 +20,7 @@
 		</tr>
 		<tr>
 			<td><input type="text" placeholder="${vo.USER_ID }" name="user_id" /></td>
-			<td><input type="text" placeholder="${vo.USER_PW }" name="user_pw" /></td>
+			<td><input type="text" name="user_pw" /></td>
 			<td><input type="text" placeholder="${vo.USER_NICK }" name="user_nick" /></td>
 			<td><input type="text" placeholder="${vo.USER_EMAIL }" name="user_email" /></td>
 		</tr>

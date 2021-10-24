@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -27,6 +29,7 @@ import co.kr.board.service.BoardService;
 import co.kr.file.service.FileService;
 import co.kr.like.service.LikeService;
 import co.kr.reply.service.ReplyService;
+import co.kr.security.VO.UserVO;
 
 @Controller
 public class BoardController {
@@ -49,9 +52,6 @@ public class BoardController {
 	@RequestMapping(value = "/home.do", method = RequestMethod.GET)
 	public String home(HttpSession session,Model model) {
 		
-		int user_no = Integer.parseInt(session.getAttribute("user_no").toString());
-		
-		model.addAttribute("user_no", user_no);
 		return "board/list";
 	}
 	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
@@ -121,7 +121,7 @@ public class BoardController {
 	}
 	//-----------------------------게시물 상세보기--------------------------------
 	@RequestMapping(value = "/BoardDetail.do", method = RequestMethod.GET)
-	public String detail(Model model,int board_no,HttpSession session) {
+	public String detail(Model model,int board_no,HttpSession session,Authentication authentication) {
 		HashMap<String, Object> detail = boardService.detail(board_no);
 		List<MultipartFile> Filelist = fileService.FileList(board_no);
 		int likeCnt = likeService.likeCnt(board_no);
@@ -132,9 +132,10 @@ public class BoardController {
 		List<HashMap<String, Object>> list = replyService.list(board_no);
 		HashMap<String, Object> param = new HashMap<String, Object>();
 		int replyUp = replyService.replyUp();
+		UserVO user = (UserVO)authentication.getPrincipal();
 		
-		int user_no = Integer.parseInt(session.getAttribute("user_no").toString());
-		
+		int user_no = user.getUser_no();
+				
 		param.put("board_no", board_no);
 		param.put("user_no", user_no);
 		int likeBtn = likeService.likeBtn(param);

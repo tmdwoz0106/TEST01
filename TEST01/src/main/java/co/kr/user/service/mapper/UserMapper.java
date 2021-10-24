@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import co.kr.security.VO.UserVO;
+
 @Mapper
 public interface UserMapper {
 
@@ -14,7 +16,7 @@ public interface UserMapper {
 
 	public int cnt();
 
-	public int join(HashMap<String, Object> param);
+	public int join(UserVO vo);
 
 	public List<HashMap<String, Object>> userCheck();
 

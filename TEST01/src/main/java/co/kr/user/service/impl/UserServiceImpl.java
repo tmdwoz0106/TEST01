@@ -3,11 +3,14 @@ package co.kr.user.service.impl;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import co.kr.security.VO.UserVO;
 import co.kr.user.service.UserService;
 import co.kr.user.service.mapper.UserMapper;
 
@@ -16,6 +19,9 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	public UserMapper userMapper;
+	
+	@Resource(name = "passwordEncoder")
+	ShaPasswordEncoder passwordEncoder;
 
 	@Override
 	public HashMap<String, Object> list(HashMap<String, Object> param, HttpSession session) {
@@ -47,14 +53,9 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public int join(HashMap<String, Object> param) {
-		List<HashMap<String, Object>> list = userMapper.userCheck(); 
-		for(int i = 0; i < list.size(); i++) {
-			if(param.get("user_id").equals(list.get(i).get("USER_ID"))) {
-				return 0;
-			}
-		}
-		return userMapper.join(param);
+	public int join(UserVO vo) {
+		vo.setUser_pw(passwordEncoder.encodePassword(vo.getUser_pw(), vo.getUser_id()));
+		return userMapper.join(vo);
 	}
 
 	@Override

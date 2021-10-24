@@ -4,13 +4,15 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
+import co.kr.security.VO.UserVO;
+
 public interface UserService {
 
 	public HashMap<String, Object> list(HashMap<String, Object> param, HttpSession session);
 
 	public int max();
 
-	public int join(HashMap<String, Object> param);
+	public int join(UserVO vo);
 
 	public int delete(int user_no);
 

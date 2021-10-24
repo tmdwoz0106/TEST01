@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +10,7 @@
 </head>
 <body>
 <h1>회원가입</h1>
-<form id="joinForm">
+<form id="joinForm" action="/join.do" method="POST">
 <input type="hidden" name="user_no" value="${max}"/>
 <table>
 	<tr>
@@ -26,8 +26,11 @@
 		<td><input type="text" name="user_email" /></td>
 	</tr>
 </table>
+<input type="hidden" value="ROLE_USER" name="user_role" />
+<input type="hidden" value="1" name="user_enabled" />
+<sec:csrfInput/>
+<button type="submit">가입하기</button> |
 </form>
-<button type="button" onclick="join()">가입하기</button> |
 <a href="/"><button>로그인페이지</button></a>
 </body>
 </html>
